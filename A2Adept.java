@@ -1,0 +1,93 @@
+package a2;
+
+import java.util.Scanner;
+
+public class A2Adept {
+	
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		
+		//System.out.println("Please enter the number of ingredients");
+ 		int numIngredients = scan.nextInt();
+		int numVegetarian = 0;
+		int maxPos = 0;
+		int minPos = 0;
+		int numRecipes;
+		boolean [] is_Vegetarian = new boolean [numIngredients];
+		double [] Price_Per_Ounce = new double[numIngredients];
+		double [] Calories_Per_Ounce = new double [numIngredients];
+		double [] Calories_Per_Dollar = new double [numIngredients];
+		String [] Ingredient_Names = new String [numIngredients];
+
+		
+		for (int i = 0; i<numIngredients; i++)
+		{
+			//System.out.println("Please enter name of the ingredient.");
+			Ingredient_Names[i] = scan.next();
+			
+			//System.out.println("Please enter the price per ounce");
+			Price_Per_Ounce[i] = scan.nextDouble();
+			
+			//System.out.println("Is this item vegetarian?");
+			is_Vegetarian[i] = scan.nextBoolean();
+			if(is_Vegetarian[i] == true)
+			{
+				numVegetarian = numVegetarian + 1;
+			}
+			
+			//System.out.println("How many calories per ounce?");
+			Calories_Per_Ounce[i] = scan.nextInt();
+			//scan.nextLine();
+					
+			
+		}
+		numRecipes = scan.nextInt();
+		String [] Recipe_Names = new String [numRecipes];
+		for (int i = 0; i<numRecipes; i++)
+		{
+			Recipe_Names[i] = scan.next();
+			int numberIngredients = scan.nextInt();
+			String [] Recipe_Ingredient_List = new String [numberIngredients];
+			double [] Recipe_Ingredient_Amount = new double [numberIngredients];
+			double totalCal = 0;
+			double totalPrice = 0;
+			boolean isVeg = true;
+			for(int j = 0; j<numberIngredients; j++)
+			{
+				Recipe_Ingredient_List[j] = scan.next();
+				Recipe_Ingredient_Amount[j] = scan.nextDouble();
+				for(int k = 0; k<numIngredients; k++)
+				{
+					if(Recipe_Ingredient_List[j].equals(Ingredient_Names[k]))
+					{
+						totalCal = totalCal + (Calories_Per_Ounce[k]*Recipe_Ingredient_Amount[j]);
+						totalPrice = totalPrice + (Price_Per_Ounce[k]*Recipe_Ingredient_Amount[j]);
+						if(!is_Vegetarian[k])
+						{
+							isVeg = false;
+						}
+					}
+				}
+			}
+			
+			String totalPriceStr = String.format("%.2f", totalPrice);
+			if(isVeg)
+			{
+				System.out.println(Recipe_Names[i]+":");
+				System.out.println(" " + (int)(totalCal+.5) + " calories");
+				System.out.println(" $" + totalPriceStr);
+				System.out.println(" Vegetarian");
+			} else {
+				System.out.println(Recipe_Names[i]+":");
+				System.out.println(" " + (int)(totalCal+.5) + " calories");
+				System.out.println(" $" + totalPriceStr);
+				System.out.println(" Non-Vegetarian");
+			}
+			
+		}
+	}
+}
+	
+	// You can define helper methods here if needed.
+
